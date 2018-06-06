@@ -1,13 +1,16 @@
 <template>
   <div class="sub-nav">
-    <div class="quickNav">
+    <div class="quickNav" v-if="mold === 'quickNav'">
       <ul class="quick-nav">
       	<li><router-link :to="{name: 'MovieView'}">影院热映</router-link></li>
       	<li><router-link :to="{name: 'StatusView'}">欧美新碟榜</router-link></li>
       	<li><router-link :to="{name: 'RegisterView'}">注册账号</router-link></li>
       	<li>
-      	  <template>
-      	  	<a href="#">退出登录</a>
+      	  <template v-if="currentUser.email">
+      	  	<a href="#" @click.prevent="logout()">退出登录</a>
+      	  </template>
+      	  <template v-else>
+      	  	<router-link :to="{name: 'LoginView'}" replace>登录豆瓣</router-link>
       	  </template>
       	</li>
       </ul>
@@ -16,8 +19,23 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters} from 'vuex'
   export default {
+  	name: 'sub-nav',
+  	props: {
+  	  mold: {
+  	  	type: String,
+  	  	default: 'quickNav'
+  	  }
+  	},
+  	// created() {
+  	//   console.log('打印数据：')
+  	//   console.log(this.currentUser)
+  	// },
+  	computed: {
 
+  	  ...mapGetters(['currentUser'])
+  	}
   }
 </script>
 
